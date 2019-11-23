@@ -1,0 +1,58 @@
+{
+  "history": [
+    "<ch_introduction> <ch_quest> <ch_end>"
+  ],
+  "ch_introduction": [
+    "<chapter> <main_city.city> struggles with <enemy.struggle_reason>. They are the reason for <struggle_result>."
+  ],
+  "ch_quest": [
+    "<ch_quest_get> <ch_quest_history> <ch_quest_twist> <ch_quest_end>"
+  ],
+  "ch_quest_get": [
+    "<chapter> In order to stop <enemy.struggle_reason> the party should head to <quest_giver_vocation.person_vocation> - <quest_giver.person>. This person will help party by providing information about <enemy.struggle_reason>."
+  ],
+  "ch_quest_history": [
+    "<chapter> Quest History."
+  ],
+  "ch_quest_twist": [
+    "<chapter> Quest twist."
+  ],
+  "ch_quest_end": [
+    "<chapter> Quest end."
+  ],
+  "ch_end": [
+    "<chapter> End of story."
+  ],
+  "city": [
+    "Capital city",
+    "Veluca",
+    "Novigrad"
+  ],
+  "struggle_reason": [
+    "Mutants",
+    "Beastmen",
+    "Royal army",
+    "Thief guild",
+    "Corrupted major",
+    "Hell Imps",
+    "Plague",
+    "Beast in severs",
+    "Bandits"
+  ],
+  "struggle_result": [
+    "Hunger",
+    "Poverty",
+    "Merchant guild leaving <main_city.city>"
+  ],
+  "person_vocation": [
+    "<main_city.city>'s major",
+    "Merchant guild's leader",
+    "Commander of city guard"
+  ],
+  "person": [
+    "Bobby Dick",
+    "Ronnie Fischer",
+    "Katie Sparks",
+    "Tyrion Lannister"
+  ]
+}

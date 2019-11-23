@@ -1,0 +1,20 @@
+{
+  "history": [
+    "There was a <person> and he had a <weapon>."
+  ],
+  "person": [
+    "<adjective> <who>"
+  ],
+  "weapon": [
+    "Sword",
+    "Bow"
+  ],
+  "adjective": [
+    "Mighty",
+    "Weak"
+  ],
+  "who": [
+    "Archer",
+    "Warrior"
+  ]
+}
