@@ -1,6 +1,5 @@
 package pl.lukaszdutka.creator;
 
-import com.google.common.collect.ImmutableList;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pl.lukaszdutka.tags.ChapterTag;
@@ -8,6 +7,7 @@ import pl.lukaszdutka.tags.Tag;
 import pl.lukaszdutka.tags.TagFactory;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -17,11 +17,13 @@ public class HistoryService {
 
     private static final String DEFAULT_HISTORY_TAG = "history";
 
-    private final TagFactory TAG_FACTORY = new TagFactory();
-
-    private final ImmutableList<Tag> EMPTY_LIST = ImmutableList.of();
+    private final TagFactory tagFactory;
 
     private Tag history;
+
+    public HistoryService(TagFactory tagFactory) {
+        this.tagFactory = tagFactory;
+    }
 
     public Tag getHistoryTag() {
         getHistory();
@@ -29,8 +31,8 @@ public class HistoryService {
     }
 
     public String getHistory() {
-        TAG_FACTORY.resetFactory();
-        Tag mainTag = TAG_FACTORY.create(DEFAULT_HISTORY_TAG, null);
+        tagFactory.resetFactory();
+        Tag mainTag = tagFactory.create(DEFAULT_HISTORY_TAG, null);
         return processTag(mainTag);
     }
 
@@ -54,11 +56,11 @@ public class HistoryService {
     private List<Tag> getAllTags(String historyWithTags, Tag parent) {
         String[] tagsArray = StringUtils.substringsBetween(historyWithTags, "<", ">");
         if (tagsArray == null) {
-            return EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         return Arrays.stream(tagsArray)
-                .map(string -> TAG_FACTORY.create(string, parent))
+                .map(string -> tagFactory.create(string, parent))
                 .collect(Collectors.toList());
     }
 
@@ -85,7 +87,7 @@ public class HistoryService {
                 return history;
             }
 
-            Tag newTag = TAG_FACTORY.create(tag.getTagString(), null, true, tag.getStory());
+            Tag newTag = tagFactory.create(tag.getTagString(), null, true, tag.getStory());
             processTag(newTag);
             history.replaceAllChildrenWithGivenId(id, newTag, true);
 

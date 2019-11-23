@@ -1,9 +1,11 @@
 package pl.lukaszdutka.tags;
 
+import org.springframework.stereotype.Service;
 import pl.lukaszdutka.creator.JSONConnector;
 
 import java.util.*;
 
+@Service
 public class TagFactory {
 
     private final Map<String, ConstantTag> CONSTANTS = new HashMap<>();
