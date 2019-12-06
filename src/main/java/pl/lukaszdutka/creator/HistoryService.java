@@ -1,146 +1,44 @@
 package pl.lukaszdutka.creator;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
-import pl.lukaszdutka.tags.ChapterTag;
+import pl.lukaszdutka.History;
 import pl.lukaszdutka.tags.Tag;
 import pl.lukaszdutka.tags.TagFactory;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class HistoryService {
 
-    private static final String DEFAULT_HISTORY_TAG = "history";
-
     private final TagFactory tagFactory;
 
-    private Tag history;
+    private final Map<String, History> histories = new HashMap<>();
 
     public HistoryService(TagFactory tagFactory) {
         this.tagFactory = tagFactory;
     }
 
-    public Tag getHistoryTag() {
-        getHistory();
+    public History getHistory(String id) {
+        return histories.computeIfAbsent(id, key -> new History(tagFactory, key));
+    }
+
+    public History rerollTag(String historyId, String tagId) {
+        if (!histories.containsKey(historyId)) {
+            return null;
+        }
+        History history = histories.get(historyId);
+
+        Tag tag = history.findTag(tagId);
+        if (tag == null) {
+            return null;
+        }
+
+        Tag rerolledTag = tagFactory.reroll(tag, history);
+
+        history.replace(tag, rerolledTag);
+
         return history;
     }
 
-    public String getHistory() {
-        tagFactory.resetFactory();
-        Tag mainTag = tagFactory.create(DEFAULT_HISTORY_TAG, null);
-        return processTag(mainTag);
-    }
-
-    private String processTag(Tag parent) {
-        if (DEFAULT_HISTORY_TAG.equals(parent.getKey())) {
-            history = parent;
-        }
-
-        String story = parent.getStory();
-
-        List<Tag> children = getAllTags(story, parent);
-
-        //for each tag replace it with processTag(tag);
-        for (Tag child : children) {
-            story = replaceTag(story, child);
-        }
-
-        return story;
-    }
-
-    private List<Tag> getAllTags(String historyWithTags, Tag parent) {
-        String[] tagsArray = StringUtils.substringsBetween(historyWithTags, "<", ">");
-        if (tagsArray == null) {
-            return Collections.emptyList();
-        }
-
-        return Arrays.stream(tagsArray)
-                .map(string -> tagFactory.create(string, parent))
-                .collect(Collectors.toList());
-    }
-
-    private String replaceTag(String history, Tag tag) {
-        String processedTag = processTag(tag);
-        return StringUtils.replaceOnce(history, withBrackets(tag.getTagString()), processedTag);
-    }
-
-    private String withBrackets(String tag) {
-        return "<" + tag + ">";
-    }
-
-    public Tag rerollTag(UUID id) {
-        Tag parent = findParent(id);
-        if (parent != null) {
-            Tag tag = parent.getChildren().stream()
-                    .filter(child -> child.getID().equals(id))
-                    .findFirst()
-                    .orElseThrow(
-                            () -> new RuntimeException("tag is null"));
-
-
-            if (tag.isChapter()) {
-                return history;
-            }
-
-            Tag newTag = tagFactory.create(tag.getTagString(), null, true, tag.getStory());
-            processTag(newTag);
-            history.replaceAllChildrenWithGivenId(id, newTag, true);
-
-            recalculateChapters(history);
-
-            return history;
-        } else {
-            return getHistoryTag();
-        }
-    }
-
-    private void recalculateChapters(Tag root) {
-        chapterNumber = 1;
-        recalculateChaptersRec(root);
-        chapterNumber = 1;
-    }
-
-    private static int chapterNumber = 1;
-
-    private void recalculateChaptersRec(Tag root) {
-        for (Tag child : root.getChildren()) {
-            if (child.isChapter()) {
-                ((ChapterTag) child).setChapterNumber(chapterNumber);
-                chapterNumber += 1;
-            } else {
-                recalculateChaptersRec(child);
-            }
-        }
-    }
-
-    private Tag findParent(UUID id) {
-        if (history.getID().equals(id)) {
-            return null;
-        }
-        if (history.getChildren().stream()
-                .anyMatch(tag -> tag.getID().equals(id))) {
-            return history;
-        }
-        return findParentRecursive(history, id);
-    }
-
-    private Tag findParentRecursive(Tag parent, UUID id) {
-        if (parent.getChildren().stream()
-                .anyMatch(tag -> tag.getID().equals(id))) {
-            return parent;
-        } else {
-            for (Tag child : parent.getChildren()) {
-                Tag tag = findParentRecursive(child, id);
-                if (tag != null) {
-                    return tag;
-                }
-            }
-        }
-        return null;
-    }
 }

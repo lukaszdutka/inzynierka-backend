@@ -12,7 +12,6 @@ public class JSONConnector {
     private static HashMap<String, ArrayList<String>> MAP;
 
     private final String PATH;
-    private static final String PATH_12_STEPS = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source_12_steps.json";
     private static final String PATH_STANDARD = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source.json";
 
 
@@ -20,19 +19,16 @@ public class JSONConnector {
         return new JSONConnector(TypeOfHistory.STANDARD);
     }
 
-    public static JSONConnector create12StepsConfiguration() {
-        return new JSONConnector(TypeOfHistory.TWELVE_STEPS);
-    }
 
     public ArrayList<String> getListForKey(String key) {
         return MAP.get(key) != null ? MAP.get(key) : new ArrayList<>();
     }
 
     private JSONConnector(TypeOfHistory typeOfHistory) {
-        switch (typeOfHistory) {
-            case STANDARD -> PATH = PATH_STANDARD;
-            case TWELVE_STEPS -> PATH = PATH_12_STEPS;
-            default -> PATH = "";
+        if (typeOfHistory == TypeOfHistory.STANDARD) {
+            PATH = PATH_STANDARD;
+        } else {
+            PATH = "";
         }
         config();
     }
@@ -50,7 +46,7 @@ public class JSONConnector {
     }
 
     private enum TypeOfHistory {
-        TWELVE_STEPS, STANDARD
+        STANDARD
     }
 
 }

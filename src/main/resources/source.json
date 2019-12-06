@@ -3,7 +3,7 @@
     "<ch_introduction> <ch_quest> <ch_end>"
   ],
   "ch_introduction": [
-    "<chapter> <main_city.city> struggles with <enemy.struggle_reason>. They are the reason for <struggle_result>."
+    "<chapter> <main_city.city> struggles with <enemy.struggle_reason>. They are the reason for <result.struggle_result>."
   ],
   "ch_quest": [
     "<ch_quest_get> <ch_quest_history> <ch_quest_twist> <ch_quest_end>"
@@ -12,16 +12,40 @@
     "<chapter> In order to stop <enemy.struggle_reason> the party should head to <quest_giver_vocation.person_vocation> - <quest_giver.person>. This person will help party by providing information about <enemy.struggle_reason>."
   ],
   "ch_quest_history": [
-    "<chapter> Quest History."
+    "<chapter> <quest_giver.person> was <quest_giver_attitude.attitude> to help. <quest_giver_vocation.person> tells the party that in order to defeat <enemy.struggle_reason> they need to find its source of power located in <enemy_place.place>."
   ],
   "ch_quest_twist": [
-    "<chapter> Quest twist."
+    "<chapter> It turns out that <twist>."
+  ],
+  "twist": [
+    "<enemy.struggle_reason> in fact <twist2>"
+  ],
+  "twist2": [
+    "is possessed by <possession_who>",
+    "uses its power to help poor people",
+    "causes the <result.struggle_result> because they <twist3>"
+  ],
+  "twist3": [
+    "don't control it",
+    "are forced to do it"
+  ],
+  "possession_who": [
+    "Necromancer",
+    "Wizard",
+    "Old Ghost of unhappy Lady",
+    "Ancient Spirit"
   ],
   "ch_quest_end": [
     "<chapter> Quest end."
   ],
   "ch_end": [
     "<chapter> End of story."
+  ],
+  "attitude": [
+    "welcoming",
+    "open",
+    "unwilling",
+    "rude"
   ],
   "city": [
     "Capital city",
@@ -54,5 +78,17 @@
     "Ronnie Fischer",
     "Katie Sparks",
     "Tyrion Lannister"
+  ],
+  "place": [
+    "basement of the <building>",
+    "<building>",
+    "watchtower",
+    "old lumberjack's hut",
+    "sewers",
+    "forest"
+  ],
+  "building": [
+    "abandoned church",
+    "old garrison"
   ]
 }

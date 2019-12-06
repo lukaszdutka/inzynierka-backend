@@ -10,8 +10,6 @@ import pl.lukaszdutka.creator.HistoryService;
 import pl.lukaszdutka.entities.TagEntity;
 import pl.lukaszdutka.tags.Tag;
 
-import java.util.UUID;
-
 @RestController
 @CrossOrigin
 @Log4j2
@@ -23,17 +21,17 @@ public class HistoryController {
         this.historyService = historyService;
     }
 
-    @RequestMapping(path = "/history", produces = "application/json; charset=UTF-8")
-    public ResponseEntity<TagEntity> getHistory() {
-        Tag history = historyService.getHistoryTag();
+    @RequestMapping(path = "/history/{historyId}", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<TagEntity> getHistory(@PathVariable String historyId) {
+        Tag origin = historyService.getHistory(historyId).get();
 
-        return ResponseEntity.ok(TagEntity.of(history));
+        return ResponseEntity.ok(TagEntity.of(origin));
     }
 
-    @RequestMapping(path = "/history/{id}", produces = "application/json; charset=UTF-8")
-    public ResponseEntity<TagEntity> getRerolledTag(@PathVariable String id) {
-        log.info("INFO getRerolledTag, clicked: " + id);
-        Tag history = historyService.rerollTag(UUID.fromString(id));
+    @RequestMapping(path = "/history/{historyId}/{tagId}", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<TagEntity> getRerolledTag(@PathVariable String historyId, @PathVariable String tagId) {
+        log.info("INFO getRerolledTag, clicked history:[" + historyId + "], tag:[" + tagId + "]");
+        Tag history = historyService.rerollTag(historyId, tagId).get();
 
         TagEntity historyEntity = TagEntity.of(history);
         log.info("INFO getRerolledTag, returns: " + historyEntity);

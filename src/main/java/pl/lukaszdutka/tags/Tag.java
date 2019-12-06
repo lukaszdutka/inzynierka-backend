@@ -6,12 +6,16 @@ import java.util.UUID;
 
 public abstract class Tag {
 
-    private final UUID ID = UUID.randomUUID();
+    private String tagId;
     String key;
     String value;
     private List<Tag> children;
 
     Tag(String key, String value) {
+        this(key, value, UUID.randomUUID().toString());
+    }
+
+    Tag(String key, String value, String tagId) {
         if (key == null) {
             throw new IllegalArgumentException("Cannot instantiate Tag object. key is null!");
         }
@@ -19,6 +23,7 @@ public abstract class Tag {
         this.key = key;
         this.value = value;
         this.children = new ArrayList<>();
+        this.tagId = tagId;
     }
 
     public abstract String getStory();
@@ -43,8 +48,8 @@ public abstract class Tag {
         return key;
     }
 
-    public UUID getID() {
-        return ID;
+    public String getTagId() {
+        return tagId;
     }
 
     public String getTagString() {
@@ -63,12 +68,20 @@ public abstract class Tag {
         children.add(tag);
     }
 
-    public void replaceAllChildrenWithGivenId(UUID id, Tag tag, boolean recursive) {
-        children.replaceAll(child -> child.getID().equals(id) ? tag : child);
+    public void replaceAllChildrenWithGivenId(String id, Tag tag, boolean recursive) {
+        children.replaceAll(child -> child.getTagId().equals(id) ? tag : child);
         if (recursive) {
             for (Tag child : children) {
                 child.replaceAllChildrenWithGivenId(id, tag, true);
             }
         }
+    }
+
+    public static Tag empty() {
+        return new InvalidTag("empty");
+    }
+
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
     }
 }

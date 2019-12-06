@@ -2,11 +2,13 @@ package pl.lukaszdutka.entities;
 
 import pl.lukaszdutka.tags.Tag;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class TagEntity {
 
-    //    private static final String[] COLOR = {"#b39ddb", "#9575cd", "#7e57c2", "#673ab7", "#5e35b1"}; // fiolet
     private static final String[] COLOR = {"#fff176", "#ffd54f", "#ffb74d", "#ffeb3b", "#ffc107", "ff9800"}; // zolto-pomaranczowe
     private static final String[] SECONDARY_COLOR = {"#ff8a65", "#ff7043", "#ff5722"};
     private String id;
@@ -20,24 +22,26 @@ public class TagEntity {
     }
 
     public static TagEntity of(Tag tag) {
-        Map<UUID, String> savedColors = new HashMap<>();
+        Map<String, String> savedColors = new HashMap<>();
         return of(tag, savedColors, 0);
     }
 
-    private static TagEntity of(Tag tag, Map<UUID, String> savedColors, int depth) {
+    private static TagEntity of(Tag tag, Map<String, String> savedColors, int depth) {
         TagEntity tagEntity = new TagEntity();
 
-        tagEntity.setId(tag.getID().toString());
+        tagEntity.setId(tag.getTagId());
         tagEntity.setTextInside(tag.getStory());
         tagEntity.setColor(getColor(depth));
         tagEntity.setClickable(!tag.isChapter());
 
         if (tag.isConstant()) {
-            if (savedColors.containsKey(tag.getID())) {
-                tagEntity.setSecondaryColor(savedColors.get(tag.getID()));
+            if (savedColors.containsKey(tag.getTagId())) {
+                tagEntity.setSecondaryColor(
+                        savedColors.get(tag.getTagId()));
             } else {
                 tagEntity.setSecondaryColor(SECONDARY_COLOR[depth % SECONDARY_COLOR.length]);
-                savedColors.put(tag.getID(), tagEntity.getSecondaryColor());
+                savedColors.put(tag.getTagId(),
+                        tagEntity.getSecondaryColor());
             }
         }
 
@@ -98,6 +102,8 @@ public class TagEntity {
                 ", textInside='" + textInside + '\'' +
                 ", color='" + color + '\'' +
                 ", children=" + children +
+                ", clickable=" + clickable +
+                ", secondaryColor='" + secondaryColor + '\'' +
                 '}';
     }
 

@@ -2,12 +2,18 @@ package pl.lukaszdutka.tags;
 
 //constant means that if there cannot exist two ConstantTag objects with same "constant" field. Second one should be first one.
 
+import java.util.UUID;
+
 public class ConstantTag extends Tag {
 
     private String constant;
 
     ConstantTag(String tagString, String value) {
-        super(extractKey(tagString), value);
+        this(tagString, value, UUID.randomUUID().toString());
+    }
+
+    ConstantTag(String tagString, String value, String key) {
+        super(extractKey(tagString), value, key);
         this.constant = extractConstant(tagString);
     }
 
