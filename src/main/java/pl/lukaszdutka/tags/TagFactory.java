@@ -16,6 +16,7 @@ public class TagFactory {
 
     private final Random R = new Random();
     private final JSONConnector JSON_CONNECTOR = JSONConnector.createStandardConfiguration();
+//    private final JSONConnector JSON_CONNECTOR = JSONConnector.createTestConfiguration();
 
     public Tag create(String tagString, History history) {
 
@@ -61,7 +62,7 @@ public class TagFactory {
 
     private VariableTag createVariable(String variableTagString) {
         String key = VariableTag.extractKey(variableTagString);
-        String value = getRandomValueForKey(key);
+        String value = getRandomValueForKey(key, Optional.empty());
 
         return new VariableTag(variableTagString, value);
     }
@@ -71,7 +72,7 @@ public class TagFactory {
 
         if (!history.hasConstant(constant)) {
             String key = ConstantTag.extractKey(constantTagString);
-            String value = getRandomValueForKey(key);
+            String value = getRandomValueForKey(key, Optional.empty());
 
             history.putConstant(constant, new ConstantTag(constantTagString, value));
         }
@@ -79,15 +80,18 @@ public class TagFactory {
         return history.getConstant(constant);
     }
 
-    private String getRandomValueForKey(String key) {
+    private String getRandomValueForKey(String key, Optional<String> previousValue) {
         List<String> values = new ArrayList<>(JSON_CONNECTOR.getListForKey(key));
         if (values.isEmpty()) {
             return key + "=INVALID";
         }
-//        values.remove(previousValue);
-//        if (values.isEmpty()) {
-//            return previousValue;
-//        }
+        if (previousValue.isPresent()) {
+            String previous = previousValue.get();
+            values.remove(previous);
+            if (values.isEmpty()) {
+                return previous;
+            }
+        }
         return MyUtil.getRandomElementFromList(values); //values.get(R.nextInt(values.size()));
     }
 
@@ -119,7 +123,7 @@ public class TagFactory {
         if (isChapter(previousTagString)) { //do not reroll chapters
             return null;
         } else if (isVariable(previousTagString)) {
-            tag = createVariable(previousTagString);
+            tag = rerollVariable(previousTag);
         } else if (isConstant(previousTagString)) { // create new Constant with same id
             tag = rerollConstant(previousTag);
         } else {
@@ -134,9 +138,16 @@ public class TagFactory {
         return tag;
     }
 
+    private Tag rerollVariable(Tag previousTag) {
+        String key = VariableTag.extractKey(previousTag.getTagString());
+        String value = getRandomValueForKey(key, Optional.of(previousTag.getStory()));
+
+        return new VariableTag(previousTag.getTagString(), value);
+    }
+
     private Tag rerollConstant(Tag previousTag) {
         String key = ConstantTag.extractKey(previousTag.getTagString());
-        String value = getRandomValueForKey(key);
+        String value = getRandomValueForKey(key, Optional.of(previousTag.getStory()));
 
         return new ConstantTag(previousTag.getTagString(), value, previousTag.getTagId());
     }

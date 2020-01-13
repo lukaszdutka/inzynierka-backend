@@ -13,10 +13,14 @@ public class JSONConnector {
 
     private final String PATH;
     private static final String PATH_STANDARD = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source.json";
-
+    private static final String PATH_SMALL = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source_small.json";
 
     public static JSONConnector createStandardConfiguration() {
         return new JSONConnector(TypeOfHistory.STANDARD);
+    }
+
+    public static JSONConnector createTestConfiguration() {
+        return new JSONConnector(TypeOfHistory.TEST);
     }
 
 
@@ -27,6 +31,8 @@ public class JSONConnector {
     private JSONConnector(TypeOfHistory typeOfHistory) {
         if (typeOfHistory == TypeOfHistory.STANDARD) {
             PATH = PATH_STANDARD;
+        } else if (typeOfHistory == TypeOfHistory.TEST) {
+            PATH = PATH_SMALL;
         } else {
             PATH = "";
         }
@@ -46,7 +52,7 @@ public class JSONConnector {
     }
 
     private enum TypeOfHistory {
-        STANDARD
+        STANDARD, TEST
     }
 
 }

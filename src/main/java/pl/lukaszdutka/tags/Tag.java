@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public abstract class Tag {
 
-    String tagId;
+    private String tagId;
     String key;
     String value;
-    List<Tag> children;
+    private List<Tag> children;
 
     Tag(String key, String value) {
         this(key, value, UUID.randomUUID().toString());
@@ -49,15 +49,8 @@ public abstract class Tag {
     }
 
     void addChild(Tag tag) {
-        children.add(tag);
-    }
-
-    public void replaceAllChildrenWithGivenId(String id, Tag tag, boolean recursive) {
-        children.replaceAll(child -> child.getTagId().equals(id) ? tag : child);
-        if (recursive) {
-            for (Tag child : children) {
-                child.replaceAllChildrenWithGivenId(id, tag, true);
-            }
+        if (children.size() == 0 || !children.get(children.size() - 1).getTagId().equals(tag.getTagId())) {
+            children.add(tag);
         }
     }
 

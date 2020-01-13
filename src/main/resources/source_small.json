@@ -1,20 +1,13 @@
 {
   "history": [
-    "There was a <person> and he had a <weapon>."
+    "<constant.person> had <weapon>. <constant.person> was brave."
   ],
   "person": [
-    "<adjective> <who>"
+    "Man",
+    "Woman"
   ],
   "weapon": [
     "Sword",
     "Bow"
-  ],
-  "adjective": [
-    "Mighty",
-    "Weak"
-  ],
-  "who": [
-    "Archer",
-    "Warrior"
   ]
 }

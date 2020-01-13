@@ -13,8 +13,8 @@ public class HistoryEntity {
     public static HistoryEntity of(History history) {
         HistoryEntity historyEntity = new HistoryEntity();
 
-        historyEntity.setId(history.getHistoryId());
-        historyEntity.setOrigin(TagEntity.of(history.getOrigin()));
+        historyEntity.id = history.getHistoryId();
+        historyEntity.origin = TagEntity.of(history.getOrigin());
 
         return historyEntity;
     }

@@ -13,12 +13,13 @@ public class TagEntity {
 
     private static final String[] COLOR = {"#fff176", "#ffd54f", "#ffb74d", "#ffeb3b", "#ffc107", "ff9800"}; // zolto-pomaranczowe
     private static final String[] SECONDARY_COLOR = {"#ff8a65", "#ff7043", "#ff5722"};
+
     private String id;
     private String textInside;
     private String color;
     private String secondaryColor;
-    private List<TagEntity> children;
     private boolean clickable;
+    private List<TagEntity> children;
 
     private TagEntity() {
     }
@@ -31,21 +32,17 @@ public class TagEntity {
     private static TagEntity of(Tag tag, Map<String, String> savedColors, int depth) {
         TagEntity tagEntity = new TagEntity();
 
-        tagEntity.setId(tag.getTagId());
-        tagEntity.setTextInside(tag.getStory());
-        tagEntity.setColor(getColor(depth));
-        tagEntity.setClickable(
-                !(tag instanceof ChapterTag) //todo: create some TagUtils and drop here method "isClickable(tag)"
-        );
+        tagEntity.id = tag.getTagId();
+        tagEntity.textInside = tag.getStory();
+        tagEntity.color = getColor(depth);
+        tagEntity.clickable = isClickable(tag);
 
         if (tag instanceof ConstantTag) {
             if (savedColors.containsKey(tag.getTagId())) {
-                tagEntity.setSecondaryColor(
-                        savedColors.get(tag.getTagId()));
+                tagEntity.secondaryColor = savedColors.get(tag.getTagId());
             } else {
-                tagEntity.setSecondaryColor(getSecondaryColor(savedColors.size()));
-                savedColors.put(tag.getTagId(),
-                        tagEntity.getSecondaryColor());
+                tagEntity.secondaryColor = getSecondaryColor(savedColors.size());
+                savedColors.put(tag.getTagId(), tagEntity.secondaryColor);
             }
         }
 
@@ -59,6 +56,10 @@ public class TagEntity {
         return tagEntity;
     }
 
+    private static boolean isClickable(Tag tag) {
+        return !(tag instanceof ChapterTag);
+    }
+
     private static String getColor(int depth) {
         return COLOR[depth % COLOR.length];
     }
@@ -67,7 +68,11 @@ public class TagEntity {
         return SECONDARY_COLOR[colorIndex % SECONDARY_COLOR.length];
     }
 
-    private void setSecondaryColor(String secondaryColor) {
+    public String getSecondaryColor() {
+        return secondaryColor;
+    }
+
+    public void setSecondaryColor(String secondaryColor) {
         this.secondaryColor = secondaryColor;
     }
 
@@ -111,9 +116,6 @@ public class TagEntity {
         this.clickable = clickable;
     }
 
-    private String getSecondaryColor() {
-        return secondaryColor;
-    }
 
     @Override
     public String toString() {
