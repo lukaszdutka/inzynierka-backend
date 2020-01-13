@@ -3,10 +3,13 @@ package pl.lukaszdutka.tags;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pl.lukaszdutka.History;
+import pl.lukaszdutka.MyUtil;
 import pl.lukaszdutka.creator.JSONConnector;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static pl.lukaszdutka.MyUtil.countDots;
 
 @Service
 public class TagFactory {
@@ -68,12 +71,9 @@ public class TagFactory {
 
         if (!history.hasConstant(constant)) {
             String key = ConstantTag.extractKey(constantTagString);
-
             String value = getRandomValueForKey(key);
 
-            ConstantTag constantTag = new ConstantTag(constantTagString, value);
-
-            history.putConstant(constant, constantTag);
+            history.putConstant(constant, new ConstantTag(constantTagString, value));
         }
 
         return history.getConstant(constant);
@@ -88,12 +88,7 @@ public class TagFactory {
 //        if (values.isEmpty()) {
 //            return previousValue;
 //        }
-        return values.get(R.nextInt(values.size()));
-    }
-
-    private static int countDots(String str) {
-        char dot = '.';
-        return (int) str.chars().filter(c -> c == dot).count();
+        return MyUtil.getRandomElementFromList(values); //values.get(R.nextInt(values.size()));
     }
 
     private static boolean isVariable(String tag) {
@@ -104,35 +99,46 @@ public class TagFactory {
         return countDots(tag) == 1;
     }
 
+    /**
+     * Rerolls given tag in given history.
+     *
+     * @param previousTag tag to reroll
+     * @param history     history, for which reroll should be performed
+     * @return new Tag with <i>preserved</i> ID.
+     */
     public Tag reroll(Tag previousTag, History history) {
         String previousTagString = previousTag.getTagString();
 
+        // TODO: 27/12/2019 Make it ONLY return new Tag, without changing history.
+
+        //have previous tag
+        //create new tag based on previousTag string
+        //return this new tag (with same ID as previousTag)
+
         Tag tag;
-        if (isChapter(previousTagString)) {
+        if (isChapter(previousTagString)) { //do not reroll chapters
             return null;
         } else if (isVariable(previousTagString)) {
             tag = createVariable(previousTagString);
-        } else if (isConstant(previousTagString)) {
-            tag = rerollConstant(previousTag, history);
+        } else if (isConstant(previousTagString)) { // create new Constant with same id
+            tag = rerollConstant(previousTag);
         } else {
             tag = createInvalid(previousTagString);
         }
 
-        extractChildren(tag, history)
-                .forEach(tag::addChild);
+        if (tag.getChildren().isEmpty()) {
+            extractChildren(tag, history)
+                    .forEach(tag::addChild);
+        }
 
         return tag;
     }
 
-    private Tag rerollConstant(Tag previousTag, History history) {
-        String constant = ConstantTag.extractConstant(previousTag.getTagString());
+    private Tag rerollConstant(Tag previousTag) {
         String key = ConstantTag.extractKey(previousTag.getTagString());
         String value = getRandomValueForKey(key);
 
-        ConstantTag constantTag = new ConstantTag(previousTag.getTagString(), value);
-        constantTag.setTagId(previousTag.getTagId());
-
-        history.putConstant(constant, constantTag);
-        return history.getConstant(constant);
+        return new ConstantTag(previousTag.getTagString(), value, previousTag.getTagId());
     }
+
 }

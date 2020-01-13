@@ -36,10 +36,16 @@
     "Ancient Spirit"
   ],
   "ch_quest_end": [
-    "<chapter> Quest end."
+    "<chapter> The party can decide whether they want to help <enemy.struggle_reason> or defeat <enemy.struggle_reason>. If they decide to help <enemy.struggle_reason> it turns out that <end>."
   ],
   "ch_end": [
-    "<chapter> End of story."
+    "<chapter> It seems like the end of the story, however party can find some clues that leads to different adventures."
+  ],
+  "end": [
+    "they shouldn't, because they <what_they_did> the party."
+  ],
+  "what_they_did": [
+    "tricked"
   ],
   "attitude": [
     "welcoming",

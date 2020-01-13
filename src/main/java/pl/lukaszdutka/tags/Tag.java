@@ -6,10 +6,10 @@ import java.util.UUID;
 
 public abstract class Tag {
 
-    private String tagId;
+    String tagId;
     String key;
     String value;
-    private List<Tag> children;
+    List<Tag> children;
 
     Tag(String key, String value) {
         this(key, value, UUID.randomUUID().toString());
@@ -22,27 +22,11 @@ public abstract class Tag {
 
         this.key = key;
         this.value = value;
-        this.children = new ArrayList<>();
         this.tagId = tagId;
+        this.children = new ArrayList<>();
     }
 
     public abstract String getStory();
-
-    public boolean isVariable() {
-        return false;
-    }
-
-    public boolean isConstant() {
-        return false;
-    }
-
-    public boolean isInvalid() {
-        return false;
-    }
-
-    public boolean isChapter() {
-        return false;
-    }
 
     public String getKey() {
         return key;

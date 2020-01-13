@@ -11,19 +11,25 @@ import java.util.UUID;
 
 public class History {
 
-    private String historyId;
+    private String historyId = null;
     private int chapterCounter = 1;
-    private Tag origin;
-    private Map<String, ConstantTag> constants;
+    private Tag origin = Tag.empty();
+    private Map<String, ConstantTag> constants = new HashMap<>();
 
     public History(TagFactory tagFactory) {
         this(tagFactory, UUID.randomUUID().toString());
     }
 
     public History(TagFactory tagFactory, String historyId) {
-        this.constants = new HashMap<>();
         this.historyId = historyId;
         this.origin = tagFactory.create("history", this);
+    }
+
+    private History() {
+    }
+
+    public static History empty() {
+        return new History();
     }
 
     public String getHistoryId() {
@@ -41,7 +47,7 @@ public class History {
 
     private void recalculateChapters(Tag root) {
         for (Tag child : root.getChildren()) {
-            if (child.isChapter()) {
+            if (child instanceof ChapterTag) {
                 ((ChapterTag) child).setChapterNumber(getAndIncrementChapterCounter());
             } else {
                 recalculateChapters(child);
@@ -49,7 +55,7 @@ public class History {
         }
     }
 
-    Tag get() {
+    public Tag getOrigin() {
         return origin;
     }
 
@@ -73,6 +79,9 @@ public class History {
     }
 
     private Tag findTag(String tagId, Tag parent) {
+        if (parent.getTagId().equals(tagId)) {
+            return parent;
+        }
         for (Tag child : parent.getChildren()) {
             if (child.getTagId().equals(tagId)) {
                 return child;
@@ -109,5 +118,15 @@ public class History {
         parent.getChildren().forEach(
                 child -> replace(child, oldTag, newTag)
         );
+    }
+
+    @Override
+    public String toString() {
+        return "History{" +
+                "historyId='" + historyId + '\'' +
+                ", chapterCounter=" + chapterCounter +
+                ", origin=" + origin +
+                ", constants=" + constants +
+                '}';
     }
 }

@@ -1,5 +1,7 @@
 package pl.lukaszdutka.entities;
 
+import pl.lukaszdutka.tags.ChapterTag;
+import pl.lukaszdutka.tags.ConstantTag;
 import pl.lukaszdutka.tags.Tag;
 
 import java.util.ArrayList;
@@ -14,9 +16,9 @@ public class TagEntity {
     private String id;
     private String textInside;
     private String color;
+    private String secondaryColor;
     private List<TagEntity> children;
     private boolean clickable;
-    private String secondaryColor;
 
     private TagEntity() {
     }
@@ -32,14 +34,16 @@ public class TagEntity {
         tagEntity.setId(tag.getTagId());
         tagEntity.setTextInside(tag.getStory());
         tagEntity.setColor(getColor(depth));
-        tagEntity.setClickable(!tag.isChapter());
+        tagEntity.setClickable(
+                !(tag instanceof ChapterTag) //todo: create some TagUtils and drop here method "isClickable(tag)"
+        );
 
-        if (tag.isConstant()) {
+        if (tag instanceof ConstantTag) {
             if (savedColors.containsKey(tag.getTagId())) {
                 tagEntity.setSecondaryColor(
                         savedColors.get(tag.getTagId()));
             } else {
-                tagEntity.setSecondaryColor(SECONDARY_COLOR[depth % SECONDARY_COLOR.length]);
+                tagEntity.setSecondaryColor(getSecondaryColor(savedColors.size()));
                 savedColors.put(tag.getTagId(),
                         tagEntity.getSecondaryColor());
             }
@@ -57,6 +61,10 @@ public class TagEntity {
 
     private static String getColor(int depth) {
         return COLOR[depth % COLOR.length];
+    }
+
+    private static String getSecondaryColor(int colorIndex) {
+        return SECONDARY_COLOR[colorIndex % SECONDARY_COLOR.length];
     }
 
     private void setSecondaryColor(String secondaryColor) {
@@ -95,18 +103,6 @@ public class TagEntity {
         return children;
     }
 
-    @Override
-    public String toString() {
-        return "TagEntity{" +
-                "id='" + id + '\'' +
-                ", textInside='" + textInside + '\'' +
-                ", color='" + color + '\'' +
-                ", children=" + children +
-                ", clickable=" + clickable +
-                ", secondaryColor='" + secondaryColor + '\'' +
-                '}';
-    }
-
     public boolean isClickable() {
         return clickable;
     }
@@ -117,5 +113,17 @@ public class TagEntity {
 
     private String getSecondaryColor() {
         return secondaryColor;
+    }
+
+    @Override
+    public String toString() {
+        return "TagEntity{" +
+                "id='" + id + '\'' +
+                ", textInside='" + textInside + '\'' +
+                ", color='" + color + '\'' +
+                ", secondaryColor='" + secondaryColor + '\'' +
+                ", children=" + children +
+                ", clickable=" + clickable +
+                '}';
     }
 }

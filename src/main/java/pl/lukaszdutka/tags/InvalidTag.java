@@ -16,12 +16,8 @@ public class InvalidTag extends Tag {
     }
 
     @Override
-    public boolean isInvalid() {
-        return true;
-    }
-
-    @Override
     public String getTagString() {
         return super.getTagString();
     }
+
 }

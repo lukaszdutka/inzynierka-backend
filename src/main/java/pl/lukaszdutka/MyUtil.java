@@ -12,5 +12,9 @@ public class MyUtil {
         return values.get(random.nextInt(values.size()));
     }
 
+    public static int countDots(String str) {
+        char dot = '.';
+        return (int) str.chars().filter(c -> c == dot).count();
+    }
 
 }

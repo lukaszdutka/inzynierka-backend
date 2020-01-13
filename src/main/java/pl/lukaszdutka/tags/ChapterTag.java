@@ -14,11 +14,6 @@ public class ChapterTag extends Tag {
         return value + " " + chapterNumber + ".";
     }
 
-    @Override
-    public boolean isChapter() {
-        return true;
-    }
-
     public void setChapterNumber(int chapterNumber) {
         this.chapterNumber = chapterNumber;
     }

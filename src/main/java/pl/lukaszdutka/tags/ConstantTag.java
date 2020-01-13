@@ -12,8 +12,8 @@ public class ConstantTag extends Tag {
         this(tagString, value, UUID.randomUUID().toString());
     }
 
-    ConstantTag(String tagString, String value, String key) {
-        super(extractKey(tagString), value, key);
+    ConstantTag(String tagString, String value, String id) {
+        super(extractKey(tagString), value, id);
         this.constant = extractConstant(tagString);
     }
 
@@ -31,11 +31,6 @@ public class ConstantTag extends Tag {
     }
 
     @Override
-    public boolean isConstant() {
-        return true;
-    }
-
-    @Override
     public String getTagString() {
         return constant + "." + key;
     }
@@ -43,4 +38,5 @@ public class ConstantTag extends Tag {
     public String getConstant() {
         return constant;
     }
+
 }

@@ -16,11 +16,6 @@ public class VariableTag extends Tag {
     }
 
     @Override
-    public boolean isVariable() {
-        return true;
-    }
-
-    @Override
     public String getTagString() {
         return super.getTagString();
     }

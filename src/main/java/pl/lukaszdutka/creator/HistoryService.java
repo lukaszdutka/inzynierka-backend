@@ -2,6 +2,7 @@ package pl.lukaszdutka.creator;
 
 import org.springframework.stereotype.Service;
 import pl.lukaszdutka.History;
+import pl.lukaszdutka.tags.ConstantTag;
 import pl.lukaszdutka.tags.Tag;
 import pl.lukaszdutka.tags.TagFactory;
 
@@ -12,7 +13,6 @@ import java.util.Map;
 public class HistoryService {
 
     private final TagFactory tagFactory;
-
     private final Map<String, History> histories = new HashMap<>();
 
     public HistoryService(TagFactory tagFactory) {
@@ -24,21 +24,35 @@ public class HistoryService {
     }
 
     public History rerollTag(String historyId, String tagId) {
-        if (!histories.containsKey(historyId)) {
-            return null;
+        if (historyDoesNotExist(historyId)) {
+            return History.empty();
         }
+        if (tagDoesNotExistWithinHistory(historyId, tagId)) {
+            return histories.get(historyId);
+        }
+
         History history = histories.get(historyId);
-
         Tag tag = history.findTag(tagId);
-        if (tag == null) {
-            return null;
+
+        Tag newTag = tagFactory.reroll(tag, history);
+
+        if (newTag instanceof ConstantTag) {
+            ConstantTag newTagConstant = (ConstantTag) newTag;
+            history.putConstant(newTagConstant.getConstant(), newTagConstant);
         }
 
-        Tag rerolledTag = tagFactory.reroll(tag, history);
-
-        history.replace(tag, rerolledTag);
+        history.replace(tag, newTag);
 
         return history;
     }
+
+    private boolean tagDoesNotExistWithinHistory(String historyId, String tagId) {
+        return histories.get(historyId).findTag(tagId) == null;
+    }
+
+    private boolean historyDoesNotExist(String historyId) {
+        return !histories.containsKey(historyId);
+    }
+
 
 }
