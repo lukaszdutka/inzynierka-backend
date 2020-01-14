@@ -1,100 +1,92 @@
 {
   "history": [
-    "<ch_introduction> <ch_quest> <ch_end>"
+    "<chapter1_comfortZone> <chapter2_needSomething> <chapter3_unfamiliarSituation> <chapter4_adapt> <chapter5_get> <chapter6_payPrice> <chapter7_return> <chapter8_change>"
   ],
-  "ch_introduction": [
-    "<chapter> <main_city.city> struggles with <enemy.struggle_reason>. They are the reason for <result.struggle_result>."
+  "chapter1_comfortZone": [
+    "<chapter> Players <comfort_zone>."
   ],
-  "ch_quest": [
-    "<ch_quest_get> <ch_quest_history> <ch_quest_twist> <ch_quest_end>"
+  "comfort_zone": [
+    "takes their mission to <initial_quest.quest>. This task was given by <quest_giver.profession>",
+    "are traveling <travel_where>",
+    "are sitting in the tavern heard about following things"
   ],
-  "ch_quest_get": [
-    "<chapter> In order to stop <enemy.struggle_reason> the party should head to <quest_giver_vocation.person_vocation> - <quest_giver.person>. This person will help party by providing information about <enemy.struggle_reason>."
+  "travel_where": [
+    "between cities in order to do something more important",
+    "and they come across the village",
+    "and they encountered something"
   ],
-  "ch_quest_history": [
-    "<chapter> <quest_giver.person> was <quest_giver_attitude.attitude> to help. <quest_giver_vocation.person> tells the party that in order to defeat <enemy.struggle_reason> they need to find its source of power located in <enemy_place.place>."
+  "chapter2_needSomething": [
+    "<chapter> They need to resupply.",
+    "<chapter> Night is about to come and they need shelter and something warm to eat."
   ],
-  "ch_quest_twist": [
-    "<chapter> It turns out that <twist>."
+  "chapter3_unfamiliarSituation": [
+    "<chapter> <chapter3>"
   ],
-  "twist": [
-    "<enemy.struggle_reason> in fact <twist2>"
+  "chapter3": [
+    "It turns out that there is a <main_enemy.enemy>, but players don't yet know exactly what it is.",
+    "<main_enemy.enemy> is blocking the <blocked_place.blockable_place> and they can't go through.",
+    "Players hear some noises. It turns out there are two people arguing."
   ],
-  "twist2": [
-    "is possessed by <possession_who>",
-    "uses its power to help poor people",
-    "causes the <result.struggle_result> because they <twist3>"
+  "blockable_place": [
+    "tunnel",
+    "bridge",
+    "canal",
+    "path",
+    "passage"
   ],
-  "twist3": [
-    "don't control it",
-    "are forced to do it"
+  "chapter4_adapt": [
+    "<chapter> <chapter4>"
   ],
-  "possession_who": [
-    "Necromancer",
-    "Wizard",
-    "Old Ghost of unhappy Lady",
-    "Ancient Spirit"
+  "chapter4": [
+    "They can decide to try talking with them, yet it won't be possible.",
+    "There is natural enemy of them nearby. This enemy is <enemy_of_enemy.enemy>",
+    "Players could try to bribe <main_enemy.enemy>. ",
+    "In confusion, one of them got killed"
   ],
-  "ch_quest_end": [
-    "<chapter> The party can decide whether they want to help <enemy.struggle_reason> or defeat <enemy.struggle_reason>. If they decide to help <enemy.struggle_reason> it turns out that <end>."
+  "chapter5_get": [
+    "<chapter> Players decide how they want to overcome the difficulties."
   ],
-  "ch_end": [
-    "<chapter> It seems like the end of the story, however party can find some clues that leads to different adventures."
+  "chapter6_payPrice": [
+    "<chapter> "
   ],
-  "end": [
-    "they shouldn't, because they <what_they_did> the party."
+  "chapter7_return": [
+    "<chapter> "
   ],
-  "what_they_did": [
-    "tricked"
+  "chapter8_change": [
+    "<chapter> "
   ],
-  "attitude": [
-    "welcoming",
-    "open",
-    "unwilling",
-    "rude"
+  "profession": [
+    "<profession_adjective>blacksmith",
+    "mayor",
+    "villagers"
   ],
-  "city": [
-    "Capital city",
-    "Veluca",
-    "Novigrad"
+  "profession_adjective": [
+    "local ",
+    "poor ",
+    "elf "
   ],
-  "struggle_reason": [
-    "Mutants",
-    "Beastmen",
-    "Royal army",
-    "Thief guild",
-    "Corrupted major",
-    "Hell Imps",
-    "Plague",
-    "Beast in severs",
-    "Bandits"
+  "quest": [
+    "<verb_and_noun> from <main_enemy.enemy>"
   ],
-  "struggle_result": [
-    "Hunger",
-    "Poverty",
-    "Merchant guild leaving <main_city.city>"
+  "verb_and_noun": [
+    "retrieve <quest_item>",
+    "save the <person>"
   ],
-  "person_vocation": [
-    "<main_city.city>'s major",
-    "Merchant guild's leader",
-    "Commander of city guard"
+  "quest_item": [
+    "weapon",
+    "sacred symbol",
+    "money"
   ],
   "person": [
-    "Bobby Dick",
-    "Ronnie Fischer",
-    "Katie Sparks",
-    "Tyrion Lannister"
+    "daughter",
+    "child"
   ],
-  "place": [
-    "basement of the <building>",
-    "<building>",
-    "watchtower",
-    "old lumberjack's hut",
-    "sewers",
-    "forest"
-  ],
-  "building": [
-    "abandoned church",
-    "old garrison"
+  "enemy": [
+    "Troll",
+    "Bandits",
+    "Necromancer",
+    "Evil Sorcerer",
+    "Muggers",
+    "Kidnappers"
   ]
 }

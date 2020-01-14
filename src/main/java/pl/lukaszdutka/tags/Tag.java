@@ -49,9 +49,13 @@ public abstract class Tag {
     }
 
     void addChild(Tag tag) {
-        if (children.size() == 0 || !children.get(children.size() - 1).getTagId().equals(tag.getTagId())) {
+        if (children.size() < countChildren()) {
             children.add(tag);
         }
+    }
+
+    protected int countChildren() {
+        return (int) value.chars().filter(c -> c == '<').count();
     }
 
     public static Tag empty() {
