@@ -1,0 +1,15 @@
+{
+  "history": [
+    "You heard that city struggles with a <big_monster>."
+  ],
+  "big_monster": [
+    "Big <monster>",
+    "Mighty <monster>",
+    "Green <monster>"
+  ],
+  "monster": [
+    "Werewolf",
+    "Troll",
+    "Orc"
+  ]
+}

@@ -12,6 +12,7 @@ public class JSONConnector {
     private static HashMap<String, ArrayList<String>> MAP;
 
     private final String PATH;
+    //    private static final String PATH_STANDARD = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source_gif.json";
     private static final String PATH_STANDARD = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source_8_steps.json";
     //    private static final String PATH_STANDARD = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source.json";
     private static final String PATH_SMALL = "/Users/user/IdeaProjects/MagnumOpusRest/src/main/resources/source_small.json";
